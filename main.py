@@ -1,4 +1,4 @@
-from requestEndPoint import *
+import ynab
 import modifyWord
 import rhAPI
 import gmail
@@ -8,8 +8,8 @@ import config
 
 # Get all Account + Category Balances from YNAB
 # Names have been reconfigured to match Jinja Tag in YNAB
-accountBalances = getAccountBalances()
-categoryBalances = getCategoryBalances()
+accountBalances = ynab.getAccountBalances()
+categoryBalances = ynab.getCategoryBalances()
 
 allBalances = {}
 allBalances.update(categoryBalances)
@@ -59,7 +59,7 @@ allBalances['date'] = currDate
 # YNAB Practices:
 # Don't have same name from account and category
 # For the Jinja Tags in Word Template use same category/account names listed in YNAB
-modifyWord.createStatement("ynabTemplate.docx", allBalances, allBalances['mnth'], allBalances['yr'])
-gmail.sendEmail(config.gmail['fromAddr'], config.gmail['toAddr'], config.gmail['password'], f'Automized Accountant: {currMonth} {currYear} Statement', "Work Hard", ['/Users/briankim/Documents/YNAB_API/November2021YNAB.docx'])
+filename = modifyWord.createStatement("ynabTemplate.docx", allBalances, allBalances['mnth'], allBalances['yr'])
+gmail.sendEmail(config.gmail['fromAddr'], config.gmail['toAddr'], config.gmail['password'], f'Automized Accountant: {currMonth} {currYear} Statement', "Work Hard", [filename])
 
 

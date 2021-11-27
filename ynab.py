@@ -1,14 +1,15 @@
 import requests
 import config
+
 # curl -H "Authorization: Bearer <ACCESS_TOKEN>" https://api.youneedabudget.com/v1/budgets
 # -H "Authorization: Bearer <ACCESS_TOKEN>"     -> This is the header for the Request sent to https://api.youneedabudget.com/v1/budgets
 
 
-# Create a dictionary of headers containing our Authorization header.
+# Header -> Dictionary containing Authorization header.
 headers = config.ynab['header']
 
-# This API endpoint is "https://api.youneedabudget.com/v1/budgets"
-myBudgetID = "85db8101-5861-4443-b63d-27a9124c6881"
+# Obtain this info -> API endpoint is "https://api.youneedabudget.com/v1/budgets"
+myBudgetID = config.ynab['BudgetID']
 
 
 # Check Status Code of Response
@@ -17,6 +18,7 @@ def checkStatus(response):
     return status_code
 
 
+# returns dict (key: accountID, value: accountInfo)
 def requestAllAccountData():
     accountListEndPoint = f"https://api.youneedabudget.com/v1/budgets/{myBudgetID}/accounts"
     response = requests.get(accountListEndPoint, headers=headers)
@@ -28,20 +30,11 @@ def requestAllAccountData():
     # Print the response.content (bytes) as JSON Object
     jsonResponse = response.json()
 
-    # #Access Data Inside YNAB (Parsing)
+    # Access Data Inside YNAB (Parsing)
     return jsonResponse['data']['accounts']
 
 
-# Use this to check for any new Accounts
-def getAccountIDs():
-    accountDict = {}
-    accounts = requestAllAccountData()
-    for account in accounts:
-        accountDict[account['name']] = account['id']
-
-    return accountDict
-
-
+# Returns Dict (key: account name, value: account balance)
 def getAccountBalances():
     accountDict = {}
     accounts = requestAllAccountData()
@@ -51,6 +44,17 @@ def getAccountBalances():
     return accountDict
 
 
+# Returns Dict( key: accountName, value: accountID)
+def getAccountIDs():
+    accountDict = {}
+    accounts = requestAllAccountData()
+    for account in accounts:
+        accountDict[account['name']] = account['id']
+
+    return accountDict
+
+
+# Request Specific Account Info
 def requestAccountData(accountID):
     accountEndPoint = f"https://api.youneedabudget.com/v1/budgets/{myBudgetID}/accounts/{accountID}"
     response = requests.get(accountEndPoint, headers=headers)
@@ -66,7 +70,7 @@ def requestAccountData(accountID):
     return jsonResponse['data']['account']
 
 
-# print account balance and return balance
+# Return's accountID's balance
 def getAccountBalance(accountID):
     accountData = requestAccountData(accountID)
     return accountData['balance'] / 1000, "${:,.2f}".format(accountData['balance'] / 1000)
@@ -89,6 +93,7 @@ def getCategoryIDs():
 
     return categoryDict
 
+
 # category names will be transformed to allow it to be used as jinja tags for YNAB Template
 def getCategoryBalances():
     categoryDict = {}
@@ -109,9 +114,10 @@ def getCategoryBalances():
             for jinjaNamePart in jinjaNameParts:
                 jinjaName += jinjaNamePart
 
-            categoryDict[jinjaName] = category['balance']/1000
+            categoryDict[jinjaName] = category['balance'] / 1000
 
     return categoryDict
+
 
 def requestCategoryData(categoryID):
     # Return Dictionary of the Selected Category

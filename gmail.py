@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 from email import encoders
 
 
-def sendEmail(fromAddr: str, toAddr: str, password: str, subject: str, body: str, files: list())-> object:
+def sendEmail(fromAddr: str, toAddr: str, password: str, subject: str, body: str, files: list()) -> object:
     '''
     Send .docx from fromAddr to toAddr
     :param fromAddr: what address you send from. Make sure to enable lesser app access
