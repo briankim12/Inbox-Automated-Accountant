@@ -1,0 +1,6 @@
+*.docx
+venv
+main.command
+
+config.py
+*.pyc
