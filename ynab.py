@@ -118,6 +118,28 @@ def getCategoryBalances():
 
     return categoryDict
 
+def getCategoryActivities():
+    categoryDict = {}
+    categoriesEndPoint = f"https://api.youneedabudget.com/v1/budgets/{myBudgetID}/categories"
+    categoriesResponse = requests.get(categoriesEndPoint, headers=headers)
+
+    # Check For Errors
+    if checkStatus(categoriesResponse) != 200:
+        return checkStatus(categoriesResponse)
+
+    categoryGroups = categoriesResponse.json()['data']['category_groups']
+
+    for categoryGroup in categoryGroups:
+        for category in categoryGroup['categories']:
+            # Convert category name imported from YNAB suitable to jinja tags used in Template
+            jinjaNameParts = category['name'].split('(')[0].split(' ')
+            jinjaName = ""
+            for jinjaNamePart in jinjaNameParts:
+                jinjaName += jinjaNamePart
+
+            categoryDict[jinjaName] = category['activity'] / 1000
+
+    return categoryDict
 
 def requestCategoryData(categoryID):
     # Return Dictionary of the Selected Category

@@ -9,7 +9,7 @@ import config
 # Get all Account + Category Balances from YNAB
 # Names have been reconfigured to match Jinja Tag in YNAB
 accountBalances = ynab.getAccountBalances()
-categoryBalances = ynab.getCategoryBalances()
+categoryBalances = ynab.getCategoryActivities()
 
 allBalances = {}
 allBalances.update(categoryBalances)
