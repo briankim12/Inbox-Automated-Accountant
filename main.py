@@ -5,8 +5,30 @@ import gmail
 import config
 import json
 
+
 def lambda_handler(event=None, context=None):
     # ETL trade data from Robinhood’s API to YNAB for downstream consumption
+    # print( ynab.getAccountIDs()["Robinhood"])
+    # transaction = {
+    #     "transaction": {
+    #         "account_id": "26ecaa4a-35bb-4230-9f26-4936d16cdc63",
+    #         "date": "2021-11-30",
+    #         "amount": -100000,
+    #         "payee_id": "57974cd1-e3b2-4650-ae74-043be2c76c1d",
+    #         "payee_name": "Gain/Loss",
+    #         "category_id": None,
+    #         "memo": "November",
+    #         "cleared": "cleared",
+    #         "approved": True,
+    #         "flag_color": None,
+    #         "import_id": None,
+    #         "subtransactions": []
+    #     },
+    #     "transactions": []
+    # }
+    # print(ynab.addTransaction(transaction))
+
+
     # Get all Account + Category Balances from YNAB
     # Names have been reconfigured to match Jinja Tag in YNAB
     accountBalances = ynab.getAccountBalances()

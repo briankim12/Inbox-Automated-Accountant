@@ -1,5 +1,7 @@
 import os
 import sys
+import json
+
 CWD = os.path.dirname(os.path.realpath(__file__))
 sys.path.insert(0, os.path.join(CWD, "venv/lib/python3.7/site-packages"))
 import requests
@@ -22,6 +24,25 @@ def checkStatus(response):
     return status_code
 
 
+def getTransactions():
+    accountListEndPoint = f"https://api.youneedabudget.com/v1/budgets/{myBudgetID}/transactions"
+    response = requests.get(accountListEndPoint, headers=headers)
+
+    a = checkStatus(response)
+    if checkStatus(response) != 200:
+        return checkStatus(response)
+
+    jsonResponse = response.json()
+    return jsonResponse['data']['transactions']
+
+
+
+# def addTransaction(transaction):
+#     accountListEndPoint = f"https://api.youneedabudget.com/v1/budgets/{myBudgetID}/transactions"
+#     response = requests.post(accountListEndPoint, json=transaction, headers=headers)
+#     return checkStatus(response)
+
+
 # returns dict (key: accountID, value: accountInfo)
 def requestAllAccountData():
     accountListEndPoint = f"https://api.youneedabudget.com/v1/budgets/{myBudgetID}/accounts"
@@ -30,10 +51,8 @@ def requestAllAccountData():
     # Check for Errors
     if checkStatus(response) != 200:
         return checkStatus(response)
-
     # Print the response.content (bytes) as JSON Object
     jsonResponse = response.json()
-
     # Access Data Inside YNAB (Parsing)
     return jsonResponse['data']['accounts']
 
@@ -122,6 +141,7 @@ def getCategoryBalances():
 
     return categoryDict
 
+
 def getCategoryActivities():
     categoryDict = {}
     categoriesEndPoint = f"https://api.youneedabudget.com/v1/budgets/{myBudgetID}/categories"
@@ -144,6 +164,7 @@ def getCategoryActivities():
             categoryDict[jinjaName] = category['activity'] / 1000
 
     return categoryDict
+
 
 def requestCategoryData(categoryID):
     # Return Dictionary of the Selected Category
