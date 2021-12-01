@@ -26,4 +26,8 @@ Passive Focus:
 2) After a year of not being able to code, I want test and improve my skills as a software developer. 
 
 
-
+Lambda Function:
+Resources:
+**Lambda Intro: **https://www.youtube.com/watch?v=seaBeltaKhw&ab_channel=StephaneMaarek
+**Lambda Functionalities: **https://www.youtube.com/watch?v=K-nnzpgrzwM&ab_channel=BeABetterDev
+**Import Open Source Module: ** https://www.youtube.com/watch?v=yyBSeGkuPqk&ab_channel=Cairocoders
