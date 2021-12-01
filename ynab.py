@@ -1,3 +1,7 @@
+import os
+import sys
+CWD = os.path.dirname(os.path.realpath(__file__))
+sys.path.insert(0, os.path.join(CWD, "venv/lib/python3.7/site-packages"))
 import requests
 import config
 
