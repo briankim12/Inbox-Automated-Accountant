@@ -29,5 +29,9 @@ Passive Focus:
 Lambda Function:
 Resources:
 **Lambda Intro: **https://www.youtube.com/watch?v=seaBeltaKhw&ab_channel=StephaneMaarek
+
 **Lambda Functionalities: **https://www.youtube.com/watch?v=K-nnzpgrzwM&ab_channel=BeABetterDev
+
 **Import Open Source Module: ** https://www.youtube.com/watch?v=yyBSeGkuPqk&ab_channel=Cairocoders
+
+*** Scheduling Lambda *** https://www.youtube.com/watch?v=rDbxCeTzw_k&ab_channel=PyLenin
