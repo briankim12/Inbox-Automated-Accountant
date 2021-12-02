@@ -4,45 +4,37 @@ import rhAPI
 import gmail
 import config
 import json
+from datetime import date
 
 
-def lambda_handler(event=None, context=None):
-    # ETL trade data from Robinhood’s API to YNAB for downstream consumption
-    # print( ynab.getAccountIDs()["Robinhood"])
-    # transaction = {
-    #     "transaction": {
-    #         "account_id": "26ecaa4a-35bb-4230-9f26-4936d16cdc63",
-    #         "date": "2021-11-30",
-    #         "amount": -100000,
-    #         "payee_id": "57974cd1-e3b2-4650-ae74-043be2c76c1d",
-    #         "payee_name": "Gain/Loss",
-    #         "category_id": None,
-    #         "memo": "November",
-    #         "cleared": "cleared",
-    #         "approved": True,
-    #         "flag_color": None,
-    #         "import_id": None,
-    #         "subtransactions": []
-    #     },
-    #     "transactions": []
-    # }
-    # print(ynab.addTransaction(transaction))
+# Update Robinhood's Equity to YNAB's Equity, return equity gain/loss
+def etlRobinhoodToYnab():
+    robinhoodID = ynab.getAccountIDs()["Robinhood"]
+    newEquity = rhAPI.getPortfolioEquity()
+    oldEquity = ynab.getAccountBalance(robinhoodID)
+    equityDiff = newEquity - oldEquity
+
+    todays_date = date.today()
+    months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+              "November", "December"]
+    strDate = str(todays_date)
+
+    ynab.updateRobinhoodAccount(robinhoodID, strDate, equityDiff, months[todays_date.month - 1])
+    return equityDiff
 
 
-    # Get all Account + Category Balances from YNAB
-    # Names have been reconfigured to match Jinja Tag in YNAB
+def jinjaTagCategoryAndAccountBalances(allBalances):
     accountBalances = ynab.getAccountBalances()
     categoryBalances = ynab.getCategoryActivities()
-
-    allBalances = {}
     allBalances.update(categoryBalances)
     allBalances.update(accountBalances)
+    return allBalances
 
-    # Jinja Tag for Robinhood + additional calculations
-    allBalances['RH'] = rhAPI.getPortfolioEquity()
+
+def jinjaTagNewCalculations(allBalances):
     allBalances['totalCash'] = allBalances['Checking'] + allBalances['Savings'] + allBalances['Paypal'] + allBalances[
         'Cash']
-    allBalances['totalInvestment'] = allBalances['RH'] + allBalances['Webull'] + allBalances['KatieWebull']
+    allBalances['totalInvestment'] = allBalances['Robinhood'] + allBalances['Webull'] + allBalances['KatieWebull']
     allBalances['assets'] = allBalances['totalCash'] + allBalances['totalInvestment']
 
     allBalances['totalMama'] = -allBalances["MamaQueenSavings"] - allBalances["MamaQueen"]
@@ -57,16 +49,17 @@ def lambda_handler(event=None, context=None):
     allBalances['netCashFlow'] = allBalances['inflow'] - allBalances['outflow']
     allBalances['capitalGain'] = 0
 
-    # Convert Balance to Currency Format
-    for item in allBalances.items():
+
+def convertBalanceToCurrencyFormat(tagToBalancesDict):
+    for item in tagToBalancesDict.items():
         if item[1] >= 0:
-            allBalances[item[0]] = '${:,.2f}'.format(item[1])
+            tagToBalancesDict[item[0]] = '${:,.2f}'.format(item[1])
         else:
-            allBalances[item[0]] = '-${:,.2f}'.format(-item[1])
+            tagToBalancesDict[item[0]] = '-${:,.2f}'.format(-item[1])
 
+
+def jinjaTagDate(jinjaTagDict):
     # Get Current Month Year
-    from datetime import date
-
     todays_date = date.today()
     months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
               "November", "December"]
@@ -75,16 +68,36 @@ def lambda_handler(event=None, context=None):
     currDate = todays_date
 
     # Set Jinja tag for date
-    allBalances['mnth'] = currMonth
-    allBalances['yr'] = currYear
-    allBalances['date'] = currDate
+    jinjaTagDict['mnth'] = currMonth
+    jinjaTagDict['yr'] = currYear
+    jinjaTagDict['date'] = currDate
 
-    # YNAB Practices:
-    # Don't have same name from account and category
+
+def lambda_handler(event=None, context=None):
+    jinjaTagDict = dict()
+
+    # ETL trade data from Robinhood’s API to YNAB for downstream consumption + update jinjaTag
+    jinjaTagDict['capitalGain'] = etlRobinhoodToYnab()
+
+    # Get all Account + Category Balances from YNAB
+    # AccountName have been reconfigured to match Jinja Tag in YNAB
+    jinjaTagCategoryAndAccountBalances(jinjaTagDict)
+
+    # Jinja Tag for Robinhood + additional calculations
+    jinjaTagNewCalculations(jinjaTagDict)
+
+    # Convert Balance to Currency Format in tagToBalanceDict
+    convertBalanceToCurrencyFormat(jinjaTagDict)
+
+    jinjaTagDate(jinjaTagDict)
+
+    # YNAB Practices: Don't have same name from account and category
     # For the Jinja Tags in Word Template use same category/account names listed in YNAB
-    filename = modifyWord.createStatement("ynabTemplate.docx", allBalances, allBalances['mnth'], allBalances['yr'])
+    filename = modifyWord.createStatement("ynabTemplate.docx", jinjaTagDict, jinjaTagDict['mnth'], jinjaTagDict['yr'])
+
     gmail.sendEmail(config.gmail['fromAddr'], config.gmail['toAddr'], config.gmail['password'],
-                    f'Automized Accountant: {currMonth} {currYear} Statement', "Work Hard", [filename])
+                    f'Automized Accountant: {jinjaTagDict["mnth"]} {jinjaTagDict["yr"]} Statement', "Work Hard",
+                    [filename])
 
     return {
         'statusCode': 200,
@@ -92,4 +105,5 @@ def lambda_handler(event=None, context=None):
     }
 
 
-lambda_handler()
+if __name__ == "__main__":
+    lambda_handler()
