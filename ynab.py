@@ -24,8 +24,8 @@ def checkStatus(response):
     return status_code
 
 
-def getTransactions():
-    accountListEndPoint = f"https://api.youneedabudget.com/v1/budgets/{myBudgetID}/transactions"
+def getAccountTransactions(accountID):
+    accountListEndPoint = f"https://api.youneedabudget.com/v1/budgets/{myBudgetID}/accounts/{accountID}/transactions"
     response = requests.get(accountListEndPoint, headers=headers)
 
     a = checkStatus(response)
@@ -36,11 +36,35 @@ def getTransactions():
     return jsonResponse['data']['transactions']
 
 
+# update Robinhood Account
+def updateRobinhoodAccount(robinhoodID, date, amount, month):
+    transaction = {
+        "transaction": {
+            f"account_id": robinhoodID,
+            f"date":  date,
+            "amount": 1000,
+            "payee_id": "57974cd1-e3b2-4650-ae74-043be2c76c1d",
+            "payee_name": "Capital Gain/Loss",
+            "category_id": None,
+            "memo": month,#month
+            "cleared": "cleared",
+            "approved": True,
+            "flag_color": None,
+            "import_id": None,
+            "subtransactions": None  # Do not use []
+        },
+        "transactions": None  # Do not use []
+    }
 
-# def addTransaction(transaction):
-#     accountListEndPoint = f"https://api.youneedabudget.com/v1/budgets/{myBudgetID}/transactions"
-#     response = requests.post(accountListEndPoint, json=transaction, headers=headers)
-#     return checkStatus(response)
+    addTransaction(transaction)
+
+
+def addTransaction(transaction):
+    accountListEndPoint = f"https://api.youneedabudget.com/v1/budgets/{myBudgetID}/transactions"
+    response = requests.post(accountListEndPoint, json=transaction, headers=headers)
+    if checkStatus(response) != 201:
+        print("Add Transaction Error")
+    return checkStatus(response)
 
 
 # returns dict (key: accountID, value: accountInfo)
@@ -96,7 +120,7 @@ def requestAccountData(accountID):
 # Return's accountID's balance
 def getAccountBalance(accountID):
     accountData = requestAccountData(accountID)
-    return accountData['balance'] / 1000, "${:,.2f}".format(accountData['balance'] / 1000)
+    return accountData['balance'] / 1000
 
 
 def getCategoryIDs():
