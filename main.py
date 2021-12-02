@@ -37,7 +37,11 @@ def jinjaTagNewCalculations(allBalances):
     allBalances['totalInvestment'] = allBalances['Robinhood'] + allBalances['Webull'] + allBalances['KatieWebull']
     allBalances['assets'] = allBalances['totalCash'] + allBalances['totalInvestment']
 
-    allBalances['totalMama'] = -allBalances["MamaQueenSavings"] - allBalances["MamaQueen"]
+    #have to use mamaqueen's balance, not activity
+    categoryID = ynab.getCategoryIDs()
+    mamaQueenID = categoryID['Mama Queen']
+    mamaQueenSavingsID = categoryID['Mama Queen Savings']
+    allBalances['totalMama'] = - ynab.getCategoryBalance(mamaQueenID) - ynab.getCategoryBalance(mamaQueenSavingsID)
     allBalances['liabilities'] = allBalances['Freedom'] + allBalances['Sapphire'] + allBalances['totalMama']
 
     allBalances['nw'] = allBalances["assets"] + allBalances["liabilities"]
@@ -47,7 +51,6 @@ def jinjaTagNewCalculations(allBalances):
                              allBalances[
                                  'DiningOut'] + allBalances['OtherExpense']
     allBalances['netCashFlow'] = allBalances['inflow'] - allBalances['outflow']
-    allBalances['capitalGain'] = 0
 
 
 def convertBalanceToCurrencyFormat(tagToBalancesDict):

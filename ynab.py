@@ -185,6 +185,7 @@ def getCategoryActivities():
             for jinjaNamePart in jinjaNameParts:
                 jinjaName += jinjaNamePart
 
+            a = category['activity']
             categoryDict[jinjaName] = category['activity'] / 1000
 
     return categoryDict
@@ -204,4 +205,4 @@ def requestCategoryData(categoryID):
 
 def getCategoryBalance(categoryID):
     categoryData = requestCategoryData(categoryID)
-    return categoryData['balance'] / 1000, "${:,.2f}".format(categoryData['balance'] / 1000)
+    return categoryData['balance'] / 1000
