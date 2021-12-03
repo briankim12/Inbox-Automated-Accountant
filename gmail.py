@@ -1,10 +1,4 @@
-#Helps Lambda Function find dependencies
-import os
-import sys
-CWD = os.path.dirname(os.path.realpath(__file__))
-sys.path.insert(0, os.path.join(CWD, "venv/lib/python3.7/site-packages"))
 import smtplib
-
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
