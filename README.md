@@ -19,27 +19,30 @@ Passive Focus:
 5) Well Documented
 
 
-## 4
+
 ### Transitioning from Python Script -> Lambda Function
 Install modules/lib/dependencies not provided by AWS Lambda to the same directory 
 
-Issue: **lxml ** lib not compatibly in lambda (linux) vs local (mac os x)
+Issue:  **lxml **  lib not compatibly in lambda (linux) vs local (mac os x)
 Solution: sftp code to AWS S3 Instance. download dependencies in S3 environment (linux). Downloaded dependencies back to local computer (dependencies.zip)
 
 Notes: Changed **"statement" file to "tmp"**. Lambda only allows you to write into /tmp directory
 
 Issue: robin_stocks/robinhood/authentication.py creates pickle file in home directory. Causes error because Lambda only allows yo to write to /tmp directory
-Solution: **Edit authentication.py file **to not write into home directory
+Solution: **Edit authentication.py file ** to not write into home directory
 
 
-Created a batch file that automatically sends deployment.zip to AWS Lambda from project directory. Remember to** change Public DNS **whenever I change instance.
+Created a batch file that automatically sends deployment.zip to AWS Lambda from project directory. Remember to ** change Public DNS ** whenever I change instance.
 Future To DO:
 - Create instance from terminal
 
 Additional Resources: 
 **Lambda Intro: **https://www.youtube.com/watch?v=seaBeltaKhw&ab_channel=StephaneMaarek
+
 **Lambda Functionalities: **https://www.youtube.com/watch?v=K-nnzpgrzwM&ab_channel=BeABetterDev
+
 **Import Open Source Module: ** https://www.youtube.com/watch?v=yyBSeGkuPqk&ab_channel=Cairocoders
+
 *** Scheduling Lambda *** https://www.youtube.com/watch?v=rDbxCeTzw_k&ab_channel=PyLenin
 
 
