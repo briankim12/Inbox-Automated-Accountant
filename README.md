@@ -1,4 +1,4 @@
-# Inbox: Automated Accountant
+i# Inbox: Automated Accountant
 
 ## Description
 Identified a need to increase efficiency in tracking financial health. Created an automated solution to visualize and track finances. Results of solution delivered via email to allow for a timely notification and increased productivity
@@ -25,7 +25,7 @@ Passive Focus:
 Install modules/lib/dependencies not provided by AWS Lambda to the same directory 
 
 Issue:  **lxml **  lib not compatibly in lambda (linux) vs local (mac os x)
-Solution: sftp code to AWS S3 Instance. download dependencies in S3 environment (linux). Downloaded dependencies back to local computer (dependencies.zip)
+Solution: sftp code to AWS EC2 Instance. download dependencies in EC2 environment (linux). Downloaded dependencies back to local computer (dependencies.zip)
 
 Notes: Changed **"statement" file to "tmp"**. Lambda only allows you to write into /tmp directory
 
