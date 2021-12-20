@@ -114,7 +114,7 @@ def lambda_handler(event=None, context=None):
         'body': json.dumps('Hello from Lambda!')
     }
 
-#
-# if __name__ == "__main__":
-#     print(startDateOfPrevMonth())
-#     lambda_handler()
+
+if __name__ == "__main__":
+    print(startDateOfPrevMonth())
+    lambda_handler()

@@ -22,7 +22,6 @@ def getAccountTransactions(accountID):
     accountListEndPoint = f"https://api.youneedabudget.com/v1/budgets/{myBudgetID}/accounts/{accountID}/transactions"
     response = requests.get(accountListEndPoint, headers=headers)
 
-    a = checkStatus(response)
     if checkStatus(response) != 200:
         return checkStatus(response)
 
@@ -36,12 +35,12 @@ def updateRobinhoodAccount(robinhoodID, date, amount, month):
     transaction = {
         "transaction": {
             f"account_id": robinhoodID,
-            f"date":  date,
+            f"date": date,
             "amount": amount,
             "payee_id": "57974cd1-e3b2-4650-ae74-043be2c76c1d",
             "payee_name": "Capital Gain/Loss",
             "category_id": None,
-            "memo": month,#month
+            "memo": month,  # month
             "cleared": "cleared",
             "approved": True,
             "flag_color": None,
@@ -184,10 +183,8 @@ def getCategoryActivitiesForMonth(month):
 
     return categoryDict
 
-
-
-
     return categoryResponse.json()['data']['category']
+
 
 def requestCategoryData(categoryID):
     # Return Dictionary of the Selected Category
