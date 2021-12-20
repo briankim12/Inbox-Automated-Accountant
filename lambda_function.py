@@ -111,7 +111,7 @@ def lambda_handler(event=None, context=None):
 
     return {
         'statusCode': 200,
-        'body': json.dumps('Hello from Lambda!')
+        'body': json.dumps('Monthly Statement Deployed From Lambda')
     }
 
 
