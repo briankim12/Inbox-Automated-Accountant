@@ -9,7 +9,8 @@ Identified a need to increase efficiency in tracking financial health. Created a
 1) Consume **You Need a Budget (YNAB) + Robinhood(RH) API** to gather necessary financial data
 2) Analyze my financial data to build new data and format them in a Microsoft Word Document using **docxtpl module**
 3) Attach financial report to email and send it to my inbox using **smtplib + email module**
-4) Automate job using AWS Lambda 
+4) Automate python Script -> AWS Lambda Function + Trigger using EventBridge (CloudWatch Events) and API Gateway
+
 
 
 Passive Focus:
