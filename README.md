@@ -1,4 +1,4 @@
-i# Inbox: Automated Accountant
+# Inbox: Automated Accountant
 
 ## Description
 Identified a need to increase efficiency in tracking financial health. Created an automated solution to visualize and track finances. Results of solution delivered via email to allow for a timely notification and increased productivity
