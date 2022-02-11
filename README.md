@@ -7,6 +7,9 @@ Identified a need to increase efficiency in tracking financial health. Created a
 ## Design
 ![Alt text](process.JPG)
 
+## Report Template
+![Alt text](reportExample.JPG)
+
 
 ### 5 Components
 1) Consume **You Need a Budget (YNAB) + Robinhood(RH) API** to gather necessary financial data
