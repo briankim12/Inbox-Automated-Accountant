@@ -8,7 +8,7 @@ Identified a need to increase efficiency in tracking financial health. Created a
 ![Alt text](process.JPG)
 
 ## Report Template
-![Alt text](reportExample.JPG)
+![Alt text](reportExample.JPEG)
 
 
 ### 5 Components
