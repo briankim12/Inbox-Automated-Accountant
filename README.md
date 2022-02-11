@@ -5,7 +5,7 @@ Identified a need to increase efficiency in tracking financial health. Created a
 
 
 ## Design
-![Alt text](img/process.jpg?raw=true "Design")
+![Alt text](img/process.JPG?raw=true "Design")
 
 
 ### 5 Components
