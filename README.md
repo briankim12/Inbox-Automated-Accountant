@@ -4,11 +4,17 @@
 Identified a need to increase efficiency in tracking financial health. Created an automated solution to visualize and track finances. Results of solution delivered via email to allow for a timely notification and increased productivity
 
 
+
 ## Design
-![Alt text](process.JPG)
+<p align="center">
+  <img src="process.JPG" width="550" title="hover text">
+ 
+</p>
 
 ## Report Template
-![Alt text](reportExample.JPEG)
+<p align="center">
+  <img src="reportExample.JPEG" width="550" title="hover text">
+</p>
 
 
 ### 5 Components
