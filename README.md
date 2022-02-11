@@ -4,6 +4,9 @@
 Identified a need to increase efficiency in tracking financial health. Created an automated solution to visualize and track finances. Results of solution delivered via email to allow for a timely notification and increased productivity
 
 
+## Design
+![Alt text](img/process.jpg?raw=true "Design")
+
 
 ### 5 Components
 1) Consume **You Need a Budget (YNAB) + Robinhood(RH) API** to gather necessary financial data
