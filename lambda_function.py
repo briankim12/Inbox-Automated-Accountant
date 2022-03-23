@@ -110,6 +110,16 @@ def lambda_handler(event=None, context=None):
                     [filename])
 
     return {
+        'version': '1.0',
+        'sessionAttributes': {},
+        'response': {
+            'outputSpeech':
+                {
+                    'type': "PlainText",
+                    'text': "Financial Report has been delivered to gmail",
+                },
+            'shouldEndSession': True
+        },
         'statusCode': 200,
         'body': json.dumps('Monthly Statement Deployed From Lambda')
     }

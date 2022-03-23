@@ -15,6 +15,8 @@ myBudgetID = config.ynab['BudgetID']
 # Check Status Code of Response
 def checkStatus(response):
     status_code = response.status_code
+    if status_code != 200 or status_code != 201 :
+        print (status_code)
     return status_code
 
 

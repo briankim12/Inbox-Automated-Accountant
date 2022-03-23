@@ -11,14 +11,14 @@
 #Send to AWS Lambda
 
 #Log into S3 Instance. Delete existing folder and create new empty folder "lambda_function"
-ssh -i "/Users/briankim/Documents/aws_instance/key2.pem" ec2-user@ec2-18-219-129-246.us-east-2.compute.amazonaws.com <<EOF
+ssh -i "/Users/briankim/Documents/aws_instance/key2.pem" ec2-user@ec2-3-17-69-188.us-east-2.compute.amazonaws.com <<EOF
 rm -r lambda_function
 mkdir lambda_function
 
 EOF
 
 #Send all files and dependencies.zip to S3 Instance.
-sftp -i "/Users/briankim/Documents/aws_instance/key2.pem" ec2-user@ec2-18-219-129-246.us-east-2.compute.amazonaws.com  <<EOF
+sftp -i "/Users/briankim/Documents/aws_instance/key2.pem" ec2-user@ec2-3-17-69-188.us-east-2.compute.amazonaws.com  <<EOF
 
 
 put lambda_function.py lambda_function/
@@ -36,7 +36,7 @@ EOF
 
 #Zip all the files together
 #Send it to AWS Lambda
-ssh -i "/Users/briankim/Documents/aws_instance/key2.pem" ec2-user@ec2-18-219-129-246.us-east-2.compute.amazonaws.com <<EOF
+ssh -i "/Users/briankim/Documents/aws_instance/key2.pem" ec2-user@ec2-3-17-69-188.us-east-2.compute.amazonaws.com  <<EOF
 cd lambda_function
 
 # mkdir deployment
